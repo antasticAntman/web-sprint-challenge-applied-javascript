@@ -11,8 +11,33 @@ const Header = (title, date, temp) => {
   //    <span class="temp">{ temp }</span>
   //  </div>
   //
-}
 
+// Create the elements first
+const header = document.createElement('div');
+const dateSpan = document.createElement('span');
+const inTitle = document.createElement('h1'); 
+const tempSpan = document.createElement('span');
+
+// Create the hierArchy
+header.appendChild(dateSpan);
+header.appendChild(inTitle);
+header.appendChild(tempSpan);
+
+// add content inside the elements
+dateSpan.textContent = date;
+inTitle.textContent = title;
+tempSpan.textContent = temp;
+
+// add the class names
+header.classList.add('header');
+dateSpan.classList.add('date');
+tempSpan.classList.add('temp');
+
+
+
+return header;
+}
+console.log(Header('Batman', '1996', '80'))
 const headerAppender = (selector) => {
   // TASK 2
   // ---------------------
@@ -20,7 +45,10 @@ const headerAppender = (selector) => {
   // It should create a header using the Header component above, passing arguments of your choosing.
   // It should append the header to the element in the DOM that matches the given selector.
   //
+const selectors = selector
+const location = document.querySelector(selectors);
 
+document.querySelector(location).appendChild(Header);
   // HINT: querySelector can take in a string (ie querySelector("#wrapper")) 
   // but it can also take in a variable (ie querySelector(selector))
   // We are taking care of passing in the correct selector on line 16,
