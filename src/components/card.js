@@ -1,3 +1,5 @@
+import axios from 'axios'
+import { articles } from '../mocks/data';
 const Card = (article) => {
   // TASK 5
   // ---------------------
@@ -17,8 +19,51 @@ const Card = (article) => {
   //   </div>
   // </div>
   //
+  console.log(article)
+  // console.log(Object.values(articles.articles.javascript))
+  const cardWrapper = document.createElement('div');
+    cardWrapper.classList.add("card");
+  
+// createElements
+const Hline = document.createElement('div');
+const authorWrapper = document.createElement('div');
+const imgContainer = document.createElement('div');
+const imgAuthor = document.createElement('img');
+const authorSpan = document.createElement('span');
+// console.log(cardWrapper);
+
+// Add class names
+Hline.classList.add('headline');
+console.log(Hline)
+authorWrapper.classList.add('author');
+imgContainer.classList.add('img-container')
+// console.log(cardWrapper);
+// nesting!!!
+cardWrapper.appendChild(Hline);
+cardWrapper.appendChild(authorWrapper);
+authorWrapper.appendChild(imgContainer);
+authorWrapper.appendChild(authorSpan);
+imgContainer.appendChild(imgAuthor);
+// console.log(cardWrapper);
+
+// Adding content
+Hline.textContent = article.headline
+imgAuthor.src = article.authorPhoto
+authorSpan.textContent = article.authorName
+// console.log(cardWrapper);
+
+cardWrapper.addEventListener('click', ()=>{
+  // console.log(Hline)
+  
+})
+return cardWrapper
 }
 
+
+// console.log(Card(['Batman', 'Robin', 'NightWing']))
+console.log(Card({ headline: 'foo', authorName: 'bar', authorPhoto: 'baz' }))
+// console.log(Card(article.authorName))
+// console.log(Card({'batman':'robin'}))
 const cardAppender = (selector) => {
   // TASK 6
   // ---------------------
@@ -28,6 +73,22 @@ const cardAppender = (selector) => {
   // Create a card from each and every article object in the response, using the Card component.
   // Append each card to the element in the DOM that matches the selector passed to the function.
   //
+axios.get('http://localhost:5001/api/articles')
+.then(res => {
+  const cardSelector = document.querySelector(selector);
+  const objKeys = Object.keys(res.data.articles)
+  for(let i = 0; i <objKeys.length; i++){
+    // console.log(res.data.articles[objKeys[i]])
+    res.data.articles[objKeys[i]].forEach(info => {
+      cardSelector.appendChild(Card(info))
+    })
+  }
+ 
+ 
+})
+.catch(err =>{
+  debugger
+})
 }
 
 export { Card, cardAppender }
